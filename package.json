@@ -1,6 +1,6 @@
 {
-  "name": "pre-style",
-  "version": "2.0.0",
+  "name": "at-rule-packer",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/src/index.js",
   "scripts": {
@@ -10,12 +10,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/soluml/pre-style/"
+    "url": "https://github.com/soluml/at-rule-packer/"
   },
   "bugs": {
-    "url": "https://github.com/soluml/pre-style/issues"
+    "url": "https://github.com/soluml/at-rule-packer/issues"
   },
-  "homepage": "https://pre.style",
   "author": {
     "name": "Benjamin Solum",
     "email": "benjamin@soluml.com",
