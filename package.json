@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc --outDir dist",
     "pretest": "eslint src/*.[tj]s test/*.[tj]s",
-    "test": "npm run build && jest"
+    "test": "npm run build && jest",
+    "prepublishOnly": "npm test"
   },
   "repository": {
     "type": "git",
