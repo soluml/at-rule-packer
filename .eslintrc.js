@@ -30,6 +30,8 @@ module.exports = {
     'no-bitwise': 0,
     'no-cond-assign': 1,
     'no-trailing-spaces': 0,
+    'no-param-reassign': 1,
+    'no-use-before-define': 1,
     'eol-last': 1,
     'func-style': ['error', 'declaration', {allowArrowFunctions: true}],
     semi: 1,
