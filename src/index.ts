@@ -36,10 +36,10 @@ export default function AtRulePacker(css: string): string {
       );
 
       deleteArr.push(ind);
-    } else {
-      // @ts-ignore
-      atrule.block.children = processRules(atrule.block as AST);
     }
+
+    // @ts-ignore
+    atrule.block.children = processRules(atrule.block as AST);
 
     duplicateMap.set(key, [atrule, index]);
 
