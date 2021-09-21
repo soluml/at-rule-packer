@@ -1,7 +1,7 @@
 {
   "name": "at-rule-packer",
   "version": "0.0.1",
-  "description": "Merge duplicate media query and other at-rule rules at the same level.",
+  "description": "Merge duplicate CSS media query and other at-rule rules together.",
   "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc --outDir dist",
