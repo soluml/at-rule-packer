@@ -41,6 +41,8 @@
   },
   "jest": {
     "rootDir": ".",
-    "testMatch": ["**/test/*.js"]
+    "testMatch": [
+      "**/test/*.js"
+    ]
   }
 }

@@ -1,7 +1,7 @@
-import csstree from "css-tree";
+import csstree from 'css-tree';
 
 export interface AST {
-  type: "StyleSheet";
+  type: 'StyleSheet';
   loc: csstree.CssLocation | null;
   children: (csstree.Atrule | csstree.Rule)[];
 }
@@ -9,29 +9,37 @@ export interface AST {
 const deepClone = (obj: object) => JSON.parse(JSON.stringify(obj));
 
 export default function AtRulePacker(css: string): string {
-  const ast = csstree.parse(css) as any as AST;
-  const packedAst: AST = {
-    type: "StyleSheet",
-    loc: null,
-    children: [],
-  };
+  const ast = deepClone(csstree.parse(css)) as any as AST;
+  const duplicateMap = new Map();
 
   const processAtrule = (atrule: csstree.Atrule) => {
-    console.log("HELLO");
+    const {type, children} = atrule.prelude as csstree.AtrulePrelude;
+    const key = type + JSON.stringify(children);
+
+    if (duplicateMap.has(key)) {
+      const doppel = duplicateMap.get(key);
+
+      doppel.block.children = doppel.block.children.concat(
+        atrule.block?.children || []
+      );
+      return;
+    }
+
+    duplicateMap.set(key, atrule);
 
     return atrule;
   };
 
   // Process AST children
-  ast.children.forEach((child) => {
-    if (child.type === "Atrule") {
-      packedAst.children.push(processAtrule(child));
-    } else {
-      packedAst.children.push(child);
-    }
-  });
+  ast.children = ast.children
+    .map((child) => {
+      if (child.type === 'Atrule') {
+        return processAtrule(child);
+      }
 
-  packedAst.children = packedAst.children.flat();
+      return child;
+    })
+    .filter((f) => f) as AST['children'];
 
   return csstree.generate(ast as any as csstree.CssNode);
 }

@@ -1,7 +1,7 @@
-const AtRulePacker = require("../dist/src").default;
+const AtRulePacker = require('../dist/src').default;
 
-describe("At-rule Packer", () => {
-  it("Can merge @rules", async () => {
+describe('At-rule Packer', () => {
+  it('Can merge @rules', async () => {
     const css = `
       /* comment */
   
@@ -10,8 +10,6 @@ describe("At-rule Packer", () => {
       }
 
       @media (max-width: 600px) {
-        /* comment */
-
         .cls {
           font-weight: normal;
         }
@@ -22,8 +20,16 @@ describe("At-rule Packer", () => {
           color: blue;
         }
       }
+
+      @supports (display: grid) {
+        div {
+          display: grid;
+        }
+      }
     `;
 
-    expect(AtRulePacker(css)).toBe("");
+    expect(AtRulePacker(css)).toBe(
+      '.outer{contain:none}@media (max-width:600px){.cls{font-weight:normal}#cls{color:blue}}@supports (display:grid){div{display:grid}}'
+    );
   });
 });
