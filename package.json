@@ -1,12 +1,12 @@
 {
   "name": "at-rule-packer",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Merge duplicate media query and other at-rule rules at the same level.",
   "main": "dist/src/index.js",
   "scripts": {
-    "lint": "eslint src/*.[tj]s test/*.[tj]s",
-    "test": "jest",
-    "start": "tsc --outDir dist"
+    "build": "tsc --outDir dist",
+    "pretest": "eslint src/*.[tj]s test/*.[tj]s",
+    "test": "npm run build && jest"
   },
   "repository": {
     "type": "git",
@@ -15,6 +15,9 @@
   "bugs": {
     "url": "https://github.com/soluml/at-rule-packer/issues"
   },
+  "files": [
+    "dist/src/**/*"
+  ],
   "author": {
     "name": "Benjamin Solum",
     "email": "benjamin@soluml.com",
