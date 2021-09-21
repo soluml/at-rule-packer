@@ -9,7 +9,7 @@ export interface AST {
 const deepClone = (obj: object) => JSON.parse(JSON.stringify(obj));
 
 export default function AtRulePacker(css: string): string {
-  const ast = deepClone(csstree.parse(css)) as any as AST;
+  const dast = deepClone(csstree.parse(css)) as any as AST;
   const duplicateMap = new Map();
 
   const processAtrule = (atrule: csstree.Atrule) => {
@@ -25,21 +25,29 @@ export default function AtRulePacker(css: string): string {
       return;
     }
 
+    if (atrule.block?.children) {
+      // @ts-ignore
+      atrule.block.children = processRules(atrule.block as AST); // eslint-disable-line
+    }
+
     duplicateMap.set(key, atrule);
 
     return atrule;
   };
 
   // Process AST children
-  ast.children = ast.children
-    .map((child) => {
-      if (child.type === 'Atrule') {
-        return processAtrule(child);
-      }
+  const processRules = (ast: AST) =>
+    ast.children
+      .map((child) => {
+        if (child.type === 'Atrule') {
+          return processAtrule(child);
+        }
 
-      return child;
-    })
-    .filter((f) => f) as AST['children'];
+        return child;
+      })
+      .filter((f) => f) as AST['children'];
 
-  return csstree.generate(ast as any as csstree.CssNode);
+  dast.children = processRules(dast);
+
+  return csstree.generate(dast as any as csstree.CssNode);
 }
