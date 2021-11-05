@@ -1,0 +1,11 @@
+@supports not (display: grid) {
+  main {
+    float: right;
+  }
+}
+
+@supports not (display: grid) {
+  .grid {
+    display: flex;
+  }
+}
