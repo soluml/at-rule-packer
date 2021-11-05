@@ -9,6 +9,8 @@ describe('postcss', () => {
     const css = await fs.promises.readFile(from, 'utf8');
     const result = await postcss([atRulePackerPlugin]).process(css, {from});
 
-    expect(result.css.trim()).toBe('');
+    expect(result.css.trim()).toBe(
+      '@supports not (display:grid){main{float:right}.grid{display:flex}}'
+    );
   });
 });
