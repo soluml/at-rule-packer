@@ -77,7 +77,7 @@ The goal of this tool is the help eliminate these efficiencies when possible by 
 
 However, this is _NOT_ a safe optimization and can result in CSS that works differently than intended:
 
-###source
+### source
 
 ```html
 <div class="mydiv font-size--medium">Hello World</div>
