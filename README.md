@@ -1,6 +1,6 @@
 # At-rule Packer
 
-Merge duplicate CSS media query and other at-rule rules together. Supports any at-rule that [PostCSS](https://postcss.org/) can handle including: `@media`, `@supports`, and even `@container`! If PostCSS supports the At-rule, so should this tool.
+A tool to Merge duplicate CSS media query and other At-rule rules together. Supports any At-rule that [PostCSS](https://postcss.org/) can handle including: `@media`, `@supports`, and even `@container`! If PostCSS supports the At-rule, so should this tool.
 
 ```
 npm install -D at-rule-packer
@@ -8,6 +8,8 @@ npm install -D at-rule-packer
 
 [![npm version](https://badge.fury.io/js/at-rule-packer.svg)](http://badge.fury.io/js/at-rule-packer)
 [![Build Status](https://travis-ci.org/soluml/at-rule-packer.svg?branch=master)](https://travis-ci.org/soluml/at-rule-packer)
+
+By default, this package exports the PostCSS plugin. The standalone tool can be found under `dist/tool`.
 
 ## SYNOPSIS
 
@@ -53,7 +55,7 @@ However, this can result in inefficient CSS for the browser:
 }
 ```
 
-The goal of this tool is the help eliminate these efficiencies when possible by changing the cascade and merging all duplicate at-rule's into the last at-rule block.
+The goal of this tool is the help eliminate these efficiencies when possible by changing the cascade and merging all duplicate At-rule's into the last At-rule block.
 
 ```css
 .hello {
@@ -144,12 +146,20 @@ Therefore, it's important to ensure that this tool is used in CSS architectures 
 
 ## USAGE
 
+### As a PostCSS Plugin
+
+The default export for this package is the PostCSS plugin. There are no configuration options so it can be used simply like so:
+
+```js
+postcss([require('at-rule-packer')({})]);
+```
+
 ### As standard Node.js package
 
 This package is a Node.js module. It takes in a single string (that should be a valid CSS string) and returns a css process css string minified and with comments removed:
 
 ```javascript
-const atp = require('at-rule-packer');
+const atp = require('at-rule-packer/dist/tool');
 
 // @supports not (display:grid){main{float:right}.grid{display:flex}}
 console.log(

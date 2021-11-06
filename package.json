@@ -12,6 +12,7 @@
     "at rule"
   ],
   "main": "dist/postcss/index.js",
+  "types": "dist/postcss/index.d.ts",
   "scripts": {
     "build": "tsc --outDir dist",
     "pretest": "eslint tool/*.[tj]s postcss/*.[tj]s test/*.[tj]s",
@@ -50,7 +51,7 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "postcss": "^8.3.11"
+    "postcss": "^8.0.0"
   },
   "jest": {
     "rootDir": ".",
