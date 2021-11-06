@@ -1,6 +1,6 @@
 # At-rule Packer
 
-Merge duplicate CSS media query and other at-rule rules together. Supports any at-rule that [CSSTree](https://github.com/csstree/csstree) can handle including: `@media`, `@supports`, and even `@container`! If CSSTree supports the at-rule, so should this tool.
+Merge duplicate CSS media query and other at-rule rules together. Supports any at-rule that [PostCSS](https://postcss.org/) can handle including: `@media`, `@supports`, and even `@container`! If PostCSS supports the At-rule, so should this tool.
 
 ```
 npm install -D at-rule-packer
@@ -177,17 +177,9 @@ A few considerations when determining whether or not you want to use this tool:
 
 As noted above, this tool will change the CSS Cascade Order! Vulnerable CSS architectures should **NOT** use this tool.
 
-### Output is Minified
+### Source Maps
 
-Currently, spacing is not retained in the final output. You'll need to run the output through a beautifier if you want to restore spacing.
-
-### Comments Are Removed
-
-This is currently a [CSSTree issue](https://github.com/csstree/csstree/issues/142). If comments are critical to the final output, you'll have to wait until this issue is resolved.
-
-### No Source Maps
-
-Currently, source maps are not supported.
+As nodes are moving and shuffling around, Source Maps may not always be 100% accurate.
 
 ## LICENSE
 

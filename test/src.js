@@ -1,5 +1,9 @@
 const AtRulePacker = require('../dist/src').default;
 
+function clearWhiteSpaceAndCallATP(css) {
+  return AtRulePacker(css).replace(/\s/g, '');
+}
+
 describe('At-rule Packer', () => {
   it('Can merge @rules', async () => {
     const css = `
@@ -28,8 +32,8 @@ describe('At-rule Packer', () => {
       }
     `;
 
-    expect(AtRulePacker(css)).toBe(
-      '.outer{contain:none}@supports (display:grid){div{display:grid}}@media (max-width:600px){.cls{color:#00f}#cls{color:blue}}'
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      '/*comment*/.outer{contain:none;}@supports(display:grid){div{display:grid;}}@media(max-width:600px){.cls{color:#00f;}#cls{color:blue;}}'
     );
   });
 
@@ -51,8 +55,8 @@ describe('At-rule Packer', () => {
 
     `;
 
-    expect(AtRulePacker(css)).toBe(
-      '@media (max-width:600px){@media (prefers-color-scheme:dark){.innerinner{font-weight:normal}#innerinner{color:white}}}'
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      '@media(max-width:600px){@media(prefers-color-scheme:dark){.innerinner{font-weight:normal;}#innerinner{color:white;}}}'
     );
   });
 
@@ -78,8 +82,8 @@ describe('At-rule Packer', () => {
 
     `;
 
-    expect(AtRulePacker(css)).toBe(
-      '@media (max-width:600px){@media (max-width:600px){@media (max-width:600px){.innerinner{font-weight:normal}#innerinner{color:white}}}}'
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      '@media(max-width:600px){@media(max-width:600px){@media(max-width:600px){.innerinner{font-weight:normal;}#innerinner{color:white;}}}}'
     );
   });
 
@@ -104,8 +108,8 @@ describe('At-rule Packer', () => {
       }
     `;
 
-    expect(AtRulePacker(css)).toBe(
-      '.hello{color:black}.world{color:#111}@media (prefers-color-scheme:dark){.hello{color:white}.world{color:#efefef}}'
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      '.hello{color:black;}.world{color:#111;}@media(prefers-color-scheme:dark){.hello{color:white;}.world{color:#efefef;}}'
     );
 
     css = `
@@ -137,8 +141,8 @@ describe('At-rule Packer', () => {
       }
     `;
 
-    expect(AtRulePacker(css)).toBe(
-      '.mydiv{color:blue;font-size:1em;font-weight:bold}.font-size--medium{font-size:1em}.aspect-ratio--video{aspect-ratio:16 / 9}@media (min-width:64em){.mydiv{font-size:1.25em}.aspect-ratio--video{aspect-ratio:4 / 3}}'
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      '.mydiv{color:blue;font-size:1em;font-weight:bold;}/*Utilities*/.font-size--medium{font-size:1em;}.aspect-ratio--video{aspect-ratio:16/9;}@media(min-width:64em){.mydiv{font-size:1.25em;}.aspect-ratio--video{aspect-ratio:4/3;}}'
     );
 
     css = `
@@ -155,8 +159,8 @@ describe('At-rule Packer', () => {
       }
     `;
 
-    expect(AtRulePacker(css)).toBe(
-      '@supports not (display:grid){main{float:right}.grid{display:flex}}'
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      '@supportsnot(display:grid){main{float:right;}.grid{display:flex;}}'
     );
   });
 });
