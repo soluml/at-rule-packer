@@ -112,7 +112,7 @@ However, this is _NOT_ a safe optimization and can result in CSS that works diff
 }
 ```
 
-###result
+### result
 
 ```css
 .mydiv {
