@@ -1,6 +1,6 @@
 {
   "name": "at-rule-packer",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Merge duplicate CSS media query and other at-rule rules together.",
   "keywords": [
     "css",
@@ -11,10 +11,10 @@
     "at-rule",
     "at rule"
   ],
-  "main": "dist/src/index.js",
+  "main": "dist/postcss/index.js",
   "scripts": {
     "build": "tsc --outDir dist",
-    "pretest": "eslint src/*.[tj]s test/*.[tj]s",
+    "pretest": "eslint tool/*.[tj]s postcss/*.[tj]s test/*.[tj]s",
     "test": "npm run build && jest",
     "prepublishOnly": "npm test"
   },
@@ -26,7 +26,8 @@
     "url": "https://github.com/soluml/at-rule-packer/issues"
   },
   "files": [
-    "dist/src/**/*"
+    "dist/postcss/**/*",
+    "dist/tool/**/*"
   ],
   "author": {
     "name": "Benjamin Solum",

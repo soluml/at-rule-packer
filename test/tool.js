@@ -1,8 +1,10 @@
-const AtRulePacker = require('../dist/src').default;
+const AtRulePacker = require('../dist/tool').default;
 
 function clearWhiteSpaceAndCallATP(css) {
   return AtRulePacker(css).replace(/\s/g, '');
 }
+
+/* eslint-disable max-len */
 
 describe('At-rule Packer', () => {
   it('Can merge @rules', async () => {

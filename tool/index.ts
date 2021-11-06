@@ -10,6 +10,7 @@ enum Direction { // eslint-disable-line no-shadow
   PREV = 'prev',
 }
 
+/* eslint-disable consistent-return */
 function untilAtRule(atrule: ChildNode, forward?: boolean): AtRule | undefined {
   const method = forward ? Direction.NEXT : Direction.PREV;
   const sibling = atrule[method]();
@@ -22,6 +23,7 @@ function untilAtRule(atrule: ChildNode, forward?: boolean): AtRule | undefined {
     return untilAtRule(sibling, forward);
   }
 }
+/* eslint-enable consistent-return */
 
 function processAtrule(atrule: AtRule): void {
   // Remove at-rules with no children
@@ -59,15 +61,16 @@ function processAtrule(atrule: AtRule): void {
 
 export default function AtRulePacker(css: string | Root): string | Root {
   const isTypeString = typeof css === 'string';
+  let ast = css;
 
   // Parse into AST (if string)
   if (isTypeString) {
-    css = postcss.parse(css);
+    ast = postcss.parse(ast);
   }
 
   // Process Atrules
-  (css as Root).walkAtRules(processAtrule);
+  (ast as Root).walkAtRules(processAtrule);
 
   // Restore as string (if it originated as string)
-  return isTypeString ? css.toString() : css;
+  return isTypeString ? ast.toString() : ast;
 }

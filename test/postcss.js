@@ -3,6 +3,8 @@ const path = require('path');
 const postcss = require('postcss');
 const atRulePackerPlugin = require('../dist/postcss');
 
+/* eslint-disable max-len */
+
 describe('postcss', () => {
   it('Should process css files', async () => {
     const from = path.resolve(__dirname, 'test.css');

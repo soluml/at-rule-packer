@@ -1,5 +1,5 @@
 import type {Plugin} from 'postcss';
-import ATP from '../src';
+import ATP from '../tool';
 
 module.exports = (): Plugin => ({
   postcssPlugin: 'at-rule-packer',
