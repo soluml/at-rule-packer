@@ -1,68 +1,73 @@
-import csstree from 'css-tree';
+import type {Root, AtRule, ChildNode} from 'postcss';
+import postcss from 'postcss';
 
-export interface AST {
-  type: 'StyleSheet';
-  loc: csstree.CssLocation | null;
-  children: (csstree.Atrule | csstree.Rule)[];
+function getAtRuleKey(atrule: AtRule) {
+  return atrule.name + atrule.params;
 }
 
-type DuplicateMapValue = [csstree.Atrule, number];
-type DuplicateMap = Map<string, DuplicateMapValue>;
-type DeleteArr = number[];
+enum Direction { // eslint-disable-line no-shadow
+  NEXT = 'next',
+  PREV = 'prev',
+}
 
-const deepClone = (obj: object) => JSON.parse(JSON.stringify(obj));
+function untilAtRule(atrule: ChildNode, forward?: boolean): AtRule | undefined {
+  const method = forward ? Direction.NEXT : Direction.PREV;
+  const sibling = atrule[method]();
 
-export default function AtRulePacker(css: string): string {
-  const dast = deepClone(csstree.parse(css)) as any as AST;
-
-  const processAtrule = (
-    atrule: csstree.Atrule,
-    index: number,
-    duplicateMap: DuplicateMap,
-    deleteArr: DeleteArr
-  ) => {
-    const {type, children} = atrule.prelude as csstree.AtrulePrelude;
-    const key = type + JSON.stringify(children);
-
-    // Remove at-rules with no children
-    if (!atrule.block?.children) return;
-
-    if (duplicateMap.has(key)) {
-      const [doppel, ind] = duplicateMap.get(key) as DuplicateMapValue;
-
-      // @ts-ignore
-      atrule.block.children = (doppel.block as csstree.Block).children.concat(
-        atrule.block.children
-      );
-
-      deleteArr.push(ind);
+  if (sibling) {
+    if (sibling.type === 'atrule') {
+      return sibling as AtRule;
     }
 
-    // @ts-ignore
-    atrule.block.children = processRules(atrule.block as AST);
+    return untilAtRule(sibling, forward);
+  }
+}
 
-    duplicateMap.set(key, [atrule, index]);
+function processAtrule(atrule: AtRule): void {
+  // Remove at-rules with no children
+  if (!atrule.nodes.length) {
+    atrule.remove();
+    return;
+  }
 
-    return atrule;
-  };
+  // Only process with the top level At-rule
+  if (untilAtRule(atrule)) return;
 
-  // Process AST children
-  const processRules = (ast: AST) => {
-    const duplicateMap: DuplicateMap = new Map();
-    const deleteArr: DeleteArr = [];
+  // Determine unique at-rules and remove ones that are not
+  const uniqueAtRules = new Map();
 
-    return ast.children
-      .map((child, index) => {
-        if (child.type === 'Atrule') {
-          return processAtrule(child, index, duplicateMap, deleteArr);
-        }
+  // loop through next At-rules
+  (function p(atr) {
+    const key = getAtRuleKey(atr);
 
-        return child;
-      })
-      .filter((f, i) => f && !~deleteArr.indexOf(i)) as AST['children'];
-  };
+    if (uniqueAtRules.has(key)) {
+      const ref = uniqueAtRules.get(key) as AtRule;
 
-  dast.children = processRules(dast);
+      ref.nodes.forEach((n) => atr.prepend(n));
+      ref.remove();
+    } else {
+      uniqueAtRules.set(key, atr);
+    }
 
-  return csstree.generate(dast as any as csstree.CssNode);
+    const nextAtRule = untilAtRule(atr, true);
+
+    if (nextAtRule) {
+      p(nextAtRule);
+    }
+  })(atrule);
+}
+
+export default function AtRulePacker(css: string | Root): string | Root {
+  const isTypeString = typeof css === 'string';
+
+  // Parse into AST (if string)
+  if (isTypeString) {
+    css = postcss.parse(css);
+  }
+
+  // Process Atrules
+  (css as Root).walkAtRules(processAtrule);
+
+  // Restore as string (if it originated as string)
+  return isTypeString ? css.toString() : css;
 }

@@ -121,6 +121,7 @@ However, this is _NOT_ a safe optimization and can result in CSS that works diff
   font-weight: bold;
 }
 
+/* Utilities */
 .font-size--medium {
   font-size: 1em;
 }
@@ -133,7 +134,6 @@ However, this is _NOT_ a safe optimization and can result in CSS that works diff
   .mydiv {
     font-size: 1.25em;
   }
-
   .aspect-ratio--video {
     aspect-ratio: 4/3;
   }

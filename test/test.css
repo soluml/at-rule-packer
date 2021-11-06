@@ -1,11 +1,26 @@
-@supports not (display: grid) {
-  main {
-    float: right;
+.mydiv {
+  color: blue;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+@media (min-width: 64em) {
+  .mydiv {
+    font-size: 1.25em;
   }
 }
 
-@supports not (display: grid) {
-  .grid {
-    display: flex;
+/* Utilities */
+.font-size--medium {
+  font-size: 1em;
+}
+
+.aspect-ratio--video {
+  aspect-ratio: 16 / 9;
+}
+
+@media (min-width: 64em) {
+  .aspect-ratio--video {
+    aspect-ratio: 4 / 3;
   }
 }
