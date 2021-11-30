@@ -95,7 +95,6 @@ describe('At-rule Packer', () => {
           }
         }
       }
-
     `;
 
     expect(clearWhiteSpaceAndCallATP(css)).toBe(
@@ -177,6 +176,28 @@ describe('At-rule Packer', () => {
 
     expect(clearWhiteSpaceAndCallATP(css)).toBe(
       '@supportsnot(display:grid){main{float:right;}.grid{display:flex;}}'
+    );
+  });
+
+  it('Should not merge @font-face', async () => {
+    const css = `
+      @font-face {
+          font-family: 'Open Sans';
+          font-style: normal;
+          font-weight: 400;
+          src: url('/fonts/OpenSans-Regular.woff2') format('woff2');
+      }
+
+      @font-face {
+          font-family: 'Open Sans';
+          font-style: normal;
+          font-weight: 700;
+          src: url('/fonts/OpenSans-Bold.woff2') format('woff2');
+      }
+    `;
+
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      `@font-face{font-family:'OpenSans';font-style:normal;font-weight:400;src:url('/fonts/OpenSans-Regular.woff2')format('woff2');}@font-face{font-family:'OpenSans';font-style:normal;font-weight:700;src:url('/fonts/OpenSans-Bold.woff2')format('woff2');}`
     );
   });
 });

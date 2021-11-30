@@ -25,10 +25,12 @@ function untilAtRule(atrule: ChildNode, forward?: boolean): AtRule | undefined {
 }
 /* eslint-enable consistent-return */
 
+// List of Atrule's that should never be merged
+const ignoredAtRules = ['font-face'];
+
 function processAtrule(atrule: AtRule): void {
-  // Remove at-rules with no children
-  if (!atrule.nodes.length) {
-    atrule.remove();
+  // Ignore at-rules that should not be merged
+  if (~ignoredAtRules.indexOf(atrule.name)) {
     return;
   }
 
