@@ -212,4 +212,40 @@ describe('At-rule Packer', () => {
       `@font-face{font-family:'OpenSans';font-style:normal;font-weight:400;src:url('/fonts/OpenSans-Regular.woff2')format('woff2');}@font-face{font-family:'OpenSans';font-style:normal;font-weight:700;src:url('/fonts/OpenSans-Bold.woff2')format('woff2');}`
     );
   });
+
+  it('Should not merge @when / @else', async () => {
+    const css = `
+      @when media(width >= 400px) and media(pointer: fine) and supports(display: flex) {
+        .cond {
+          color: red;
+        }
+      } @else supports(caret-color: pink) and supports(background: double-rainbow()) {
+        .cond {
+          color: white;
+        }
+      } @else {
+        .cond {
+          color: blue;
+        }
+      }
+
+      @when media(width >= 400px) and media(pointer: fine) and supports(display: flex) {
+        .cond2 {
+          color: red;
+        }
+      } @else supports(caret-color: pink) and supports(background: double-rainbow()) {
+        .cond2 {
+          color: green;
+        }
+      } @else {
+        .cond2 {
+          color: blue;
+        }
+      }
+    `;
+
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      `@whenmedia(width>=400px)andmedia(pointer:fine)andsupports(display:flex){.cond{color:red;}}@elsesupports(caret-color:pink)andsupports(background:double-rainbow()){.cond{color:white;}}@else{.cond{color:blue;}}@whenmedia(width>=400px)andmedia(pointer:fine)andsupports(display:flex){.cond2{color:red;}}@elsesupports(caret-color:pink)andsupports(background:double-rainbow()){.cond2{color:green;}}@else{.cond2{color:blue;}}`
+    );
+  });
 });
