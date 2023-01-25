@@ -47,16 +47,26 @@ function processAtrule(atrule: AtRule): void {
     if (uniqueAtRules.has(key)) {
       const ref = uniqueAtRules.get(key) as AtRule;
 
-      ref.nodes.forEach((n) => atr.prepend(n));
-      ref.remove();
+      ref.push(atr);
     } else {
-      uniqueAtRules.set(key, atr);
+      uniqueAtRules.set(key, [atr]);
     }
 
     const nextAtRule = untilAtRule(atr, true);
 
     if (nextAtRule) {
       p(nextAtRule);
+    } else {
+      uniqueAtRules.forEach((atrs) => {
+        if (atrs.length > 1) {
+          const target = atrs.pop();
+
+          atrs.reverse().forEach((a: AtRule) => {
+            target.prepend(a.nodes);
+            a.remove();
+          });
+        }
+      });
     }
   })(atrule);
 }

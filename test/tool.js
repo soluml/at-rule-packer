@@ -298,6 +298,8 @@ describe('At-rule Packer', () => {
     }
     `;
 
-    expect(AtRulePacker(css)).toBe(`asd`);
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      `@media(min-width:45em){.headerToggleButton{display:none;}.headerNavList{flex-direction:row;gap:1.25em;height:auto;position:static;transform:none;width:auto;}.headerNav{background:none;color:rgb(var(--menu-text));font-size:1em;height:auto;position:static;transform:none;width:auto;}.headerNavList>*{transform:none;width:auto;}.headerNavlinkHome{display:none;}}@keyframesfloat{50%{transform:translateY(-10%)rotate(10deg);}}`
+    );
   });
 });
