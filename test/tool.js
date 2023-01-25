@@ -248,4 +248,56 @@ describe('At-rule Packer', () => {
       `@whenmedia(width>=400px)andmedia(pointer:fine)andsupports(display:flex){.cond{color:red;}}@elsesupports(caret-color:pink)andsupports(background:double-rainbow()){.cond{color:white;}}@else{.cond{color:blue;}}@whenmedia(width>=400px)andmedia(pointer:fine)andsupports(display:flex){.cond2{color:red;}}@elsesupports(caret-color:pink)andsupports(background:double-rainbow()){.cond2{color:green;}}@else{.cond2{color:blue;}}`
     );
   });
+
+  it('Real life example leveraging CSS variables', async () => {
+    const css = `
+    @media (min-width: 45em) {
+      .headerToggleButton {
+        display: none;
+
+      }
+
+      .headerNavList {
+          flex-direction: row;
+          gap: 1.25em;
+          height: auto;
+          position: static;
+         transform: none;
+          width: auto;
+      }
+  }
+
+
+
+
+      @media (min-width: 45em) {
+        .headerNav {
+          background: none;
+          color: rgb(var(--menu-text));
+          font-size: 1em;
+          height: auto;
+          position: static;
+          transform: none;
+          width: auto;
+        }
+        .headerNavList>* {
+          transform: none;
+          width: auto;
+        }
+      }
+
+      @media (min-width: 45em) {
+        .headerNavlinkHome {
+          display: none;
+        }
+    }
+    @keyframes float {
+      50% {
+        transform: translateY(-10%) rotate(10deg);
+      }
+    }
+    `;
+
+    expect(css).toBe(`asd`);
+  });
 });
