@@ -298,6 +298,6 @@ describe('At-rule Packer', () => {
     }
     `;
 
-    expect(css).toBe(`asd`);
+    expect(AtRulePacker(css)).toBe(`asd`);
   });
 });
