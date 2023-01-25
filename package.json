@@ -1,6 +1,6 @@
 {
   "name": "at-rule-packer",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Merge duplicate CSS media query and other at-rule rules together.",
   "keywords": [
     "at-rule",
