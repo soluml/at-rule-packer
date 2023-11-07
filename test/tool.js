@@ -249,6 +249,24 @@ describe('At-rule Packer', () => {
     );
   });
 
+  it('Should not merge @layer', async () => {
+    const css = `
+      @layer {
+          font-family: 'Open Sans';
+      }
+
+      @layer reset, body;
+
+      @layer reset {
+          font-family: 'Open Serif';
+      }
+    `;
+
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      `@layer{font-family:'OpenSans';}@layerreset,body;@layerreset{font-family:'OpenSerif';}`
+    );
+  });
+
   it('Real life example leveraging CSS variables', async () => {
     const css = `
     @media (min-width: 45em) {
