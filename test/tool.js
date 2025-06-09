@@ -294,6 +294,24 @@ describe('At-rule Packer', () => {
     );
   });
 
+  it('Can handle @view-transition', async () => {
+    const css = `
+      /* comment */
+
+      @view-transition {
+        navigation: auto;
+      }
+
+      @view-transition {
+        navigation: none;
+      }
+    `;
+
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      '/*comment*/@view-transition{navigation:auto;navigation:none;}'
+    );
+  });
+
   it('Real life example leveraging CSS variables', async () => {
     const css = `
     @media (min-width: 45em) {
