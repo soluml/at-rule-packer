@@ -195,7 +195,7 @@ As nodes are moving and shuffling around, Source Maps may not always be 100% acc
 
 ### Native CSS Nesting
 
-Since the initial release of this tool, the Web Platform has introduced native [CSS Nesting](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_nesting). This plugin does not identify duplicate at-rules within nested rules.
+Since the initial release of this tool, the Web Platform has introduced native [CSS Nesting](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_nesting). This plugin does not identify duplicated at-rules within nested rules.
 
 ## LICENSE
 
