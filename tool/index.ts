@@ -5,7 +5,7 @@ function getAtRuleKey(atrule: AtRule) {
   return atrule.name + atrule.params;
 }
 
-enum Direction { // eslint-disable-line no-shadow
+enum Direction {
   NEXT = 'next',
   PREV = 'prev',
 }
@@ -35,7 +35,9 @@ function processAtrule(atrule: AtRule): void {
   }
 
   // Only process with the top level At-rule
-  if (untilAtRule(atrule)) return;
+  if (untilAtRule(atrule)) {
+    return;
+  }
 
   // Determine unique at-rules and remove ones that are not
   const uniqueAtRules = new Map();
