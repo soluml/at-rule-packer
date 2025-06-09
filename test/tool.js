@@ -1,7 +1,7 @@
 const AtRulePacker = require('../dist/tool').default;
 
 function clearWhiteSpaceAndCallATP(css) {
-  return AtRulePacker(css).replace(/\s/g, '');
+  return AtRulePacker(css).replace(/(?<!@layer)\s+/g, '');
 }
 
 /* eslint-disable max-len */
