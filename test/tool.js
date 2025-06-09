@@ -81,10 +81,25 @@ describe('At-rule Packer', () => {
         }
       }
 
+      @layer utils {
+        @supports (color: light-dark(red, tan)) {
+          .text {
+            color: light-dark(#fafaf7, #22242a);
+          }
+        }
+      }
+
+      @layer utils {
+        @supports (color: light-dark(red, tan)) {
+          .text2 {
+            color: light-dark(red, tan);
+          }
+        }
+      }
     `;
 
     expect(clearWhiteSpaceAndCallATP(css)).toBe(
-      '@media(max-width:600px){@media(prefers-color-scheme:dark){.innerinner{font-weight:normal;}#innerinner{color:white;}}}'
+      '@media(max-width:600px){@media(prefers-color-scheme:dark){.innerinner{font-weight:normal;}#innerinner{color:white;}}}@layer utils{@supports(color:light-dark(red,tan)){.text{color:light-dark(#fafaf7,#22242a);}.text2{color:light-dark(red,tan);}}}'
     );
   });
 
@@ -263,7 +278,7 @@ describe('At-rule Packer', () => {
     `;
 
     expect(clearWhiteSpaceAndCallATP(css)).toBe(
-      `@layer{font-family:'OpenSans';}@layerreset,body;@layerreset{font-family:'OpenSerif';}`
+      `@layer {font-family:'OpenSans';}@layer reset,body;@layer reset{font-family:'OpenSerif';}`
     );
   });
 
