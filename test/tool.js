@@ -141,6 +141,31 @@ describe('At-rule Packer', () => {
     );
   });
 
+  it('Will not apply to natively nested CSS at-rules', async () => {
+    const css = `
+      [popover]:popover-open {
+        opacity: 1;
+        transform: scaleX(1);
+
+        @starting-style {
+          opacity: 0;
+        }
+      }
+
+      [popover]:popover-open {
+        color: red;
+
+        @starting-style {
+          transform: scaleX(0);
+        }
+      }
+    `;
+
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      `[popover]:popover-open{opacity:1;transform:scaleX(1);@starting-style{opacity:0;}}[popover]:popover-open{color:red;@starting-style{transform:scaleX(0);}}`
+    );
+  });
+
   it('Has README.md examples that work', async () => {
     let css = `
       .hello {

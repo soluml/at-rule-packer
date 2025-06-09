@@ -1,6 +1,8 @@
 # At-rule Packer
 
-A tool to Merge duplicate CSS media query and other At-rule rules together. Supports any At-rule that [PostCSS](https://postcss.org/) can handle including: `@media`, `@supports`, and even `@container`! If PostCSS supports the At-rule, so should this tool.
+A tool to Merge duplicate CSS media query and other At-rule rules together. Supports any At-rule that [PostCSS](https://postcss.org/) can handle including: `@media`, `@container`, `@supports`, and even newer at-rule's such as `@view-transition`, `@starting-style`, and `@scope`! If PostCSS supports the At-rule, so should this tool.
+
+It should be noted that this tool does _NOT_ apply to natively nested at-rules. To get the most out of this plugin, you should leverage the the [postcss-nesting](https://www.npmjs.com/package/postcss-nesting) PostCSS plugin or be using a preprocessor like [Sass](https://sass-lang.com/).
 
 ```
 npm install -D at-rule-packer
@@ -190,6 +192,10 @@ As noted above, this tool will change the CSS Cascade Order! Vulnerable CSS arch
 ### Source Maps
 
 As nodes are moving and shuffling around, Source Maps may not always be 100% accurate.
+
+### Native CSS Nesting
+
+Since the initial release of this tool, the Web Platform has introduced native [CSS Nesting](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_nesting). This plugin does not identify duplicate at-rules within nested rules.
 
 ## LICENSE
 
