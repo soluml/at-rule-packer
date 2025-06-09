@@ -310,7 +310,7 @@ describe('At-rule Packer', () => {
     `;
 
     expect(clearWhiteSpaceAndCallATP(css)).toBe(
-      `@property--rotation{syntax:\"<angle>\";inherits:false;initial-value:45deg;}@property--rotation{syntax:\"<angle>\";inherits:false;initial-value:45deg;}`
+      `@property--rotation{syntax:\"<angle>\";inherits:false;initial-value:45deg;}@property--rotation{syntax:\"<angle>\";inherits:false;initial-value:50deg;}`
     );
   });
 
@@ -329,6 +329,46 @@ describe('At-rule Packer', () => {
 
     expect(clearWhiteSpaceAndCallATP(css)).toBe(
       '/*comment*/@view-transition{navigation:auto;navigation:none;}'
+    );
+  });
+
+  it('Can handle @scope', async () => {
+    const css = `
+      @scope (.article-body) to (figure) {
+        img {
+          border: 5px solid black;
+          background-color: goldenrod;
+        }
+      }
+
+      @scope (.article-body) to (figure) {
+        .text {
+          color: white;
+        }
+      }
+
+      @scope (.article-body) {
+        img {
+          border: 5px solid black;
+          background-color: goldenrod;
+        }
+      }
+
+      @scope (.article-body) {
+        .text {
+          color: red;
+        }
+      }
+
+      @scope (.other) {
+        .text {
+          color: red;
+        }
+      }
+    `;
+
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      `@scope(.article-body)to(figure){img{border:5pxsolidblack;background-color:goldenrod;}.text{color:white;}}@scope(.article-body){img{border:5pxsolidblack;background-color:goldenrod;}.text{color:red;}}@scope(.other){.text{color:red;}}`
     );
   });
 
