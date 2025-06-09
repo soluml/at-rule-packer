@@ -26,7 +26,14 @@ function untilAtRule(atrule: ChildNode, forward?: boolean): AtRule | undefined {
 /* eslint-enable consistent-return */
 
 // List of Atrule's that should never be merged
-const ignoredAtRules = ['import', 'font-face', 'layer', 'when', 'else'];
+const ignoredAtRules = [
+  'import',
+  'font-face',
+  'layer',
+  'property',
+  'when',
+  'else',
+];
 
 function processAtrule(atrule: AtRule): void {
   // Ignore at-rules that should not be merged

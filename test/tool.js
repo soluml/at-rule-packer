@@ -294,6 +294,26 @@ describe('At-rule Packer', () => {
     );
   });
 
+  it('Should not merge @property', async () => {
+    const css = `
+      @property --rotation {
+        syntax: "<angle>";
+        inherits: false;
+        initial-value: 45deg;
+      }
+
+      @property --rotation {
+        syntax: "<angle>";
+        inherits: false;
+        initial-value: 50deg;
+      }
+    `;
+
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      `@property--rotation{syntax:\"<angle>\";inherits:false;initial-value:45deg;}@property--rotation{syntax:\"<angle>\";inherits:false;initial-value:45deg;}`
+    );
+  });
+
   it('Can handle @view-transition', async () => {
     const css = `
       /* comment */
