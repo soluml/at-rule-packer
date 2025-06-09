@@ -58,10 +58,22 @@ describe('At-rule Packer', () => {
           color: blue;
         }
       }
+
+      @starting-style {
+        #target {
+          background-color: transparent;
+        }
+      }
+
+      @starting-style {
+        #target2 {
+          background-color: red;
+        }
+      }
     `;
 
     expect(clearWhiteSpaceAndCallATP(css)).toBe(
-      '/*comment*/.outer{contain:none;}@supports(display:grid){div{display:grid;}}@media(max-width:600px){.cls{color:#00f;}#cls{color:blue;}}@container(min-width:700px){.card{display:grid;grid-template-columns:2fr1fr;}.card2{display:grid;grid-template-columns:1fr2fr;}}@containernamed(min-width:800px){.card3{color:red;}.card4{color:blue;}}'
+      '/*comment*/.outer{contain:none;}@supports(display:grid){div{display:grid;}}@media(max-width:600px){.cls{color:#00f;}#cls{color:blue;}}@container(min-width:700px){.card{display:grid;grid-template-columns:2fr1fr;}.card2{display:grid;grid-template-columns:1fr2fr;}}@containernamed(min-width:800px){.card3{color:red;}.card4{color:blue;}}@starting-style{#target{background-color:transparent;}#target2{background-color:red;}}'
     );
   });
 
