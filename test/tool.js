@@ -70,10 +70,40 @@ describe('At-rule Packer', () => {
           background-color: red;
         }
       }
+
+      @supports selector(::scroll-marker) {
+        li::scroll-marker {
+          background-color: red;
+        }
+      }
+
+      @supports selector(::scroll-marker) {
+        li::scroll-marker {
+          color: black;
+        }
+      }
+
+      @supports selector(::scroll-button(*)) {
+        li::scroll-marker {
+          background-color: red;
+        }
+      }
+
+      @supports selector(::scroll-button(*)) {
+        li::scroll-marker {
+          color: black;
+        }
+      }
+
+      @supports selector(::scroll-button(left)) {
+        li::scroll-marker {
+          color: black;
+        }
+      }
     `;
 
     expect(clearWhiteSpaceAndCallATP(css)).toBe(
-      '/*comment*/.outer{contain:none;}@supports(display:grid){div{display:grid;}}@media(max-width:600px){.cls{color:#00f;}#cls{color:blue;}}@container(min-width:700px){.card{display:grid;grid-template-columns:2fr1fr;}.card2{display:grid;grid-template-columns:1fr2fr;}}@containernamed(min-width:800px){.card3{color:red;}.card4{color:blue;}}@starting-style{#target{background-color:transparent;}#target2{background-color:red;}}'
+      '/*comment*/.outer{contain:none;}@supports(display:grid){div{display:grid;}}@media(max-width:600px){.cls{color:#00f;}#cls{color:blue;}}@container(min-width:700px){.card{display:grid;grid-template-columns:2fr1fr;}.card2{display:grid;grid-template-columns:1fr2fr;}}@containernamed(min-width:800px){.card3{color:red;}.card4{color:blue;}}@starting-style{#target{background-color:transparent;}#target2{background-color:red;}}@supportsselector(::scroll-marker){li::scroll-marker{background-color:red;}li::scroll-marker{color:black;}}@supportsselector(::scroll-button(*)){li::scroll-marker{background-color:red;}li::scroll-marker{color:black;}}@supportsselector(::scroll-button(left)){li::scroll-marker{color:black;}}'
     );
   });
 
