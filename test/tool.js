@@ -145,6 +145,65 @@ describe('At-rule Packer', () => {
     );
   });
 
+  it('Can merge nested @rules within a layer', async () => {
+    const css = `
+      @layer global {
+          :root {
+              --header-open: 0;
+              color-scheme: light;
+              interpolate-size: allow-keywords
+          }
+
+          @supports (color: light-dark(red,tan)) {
+              :root {
+                  color-scheme:light dark
+              }
+
+              :where([data-theme=dark]) {
+                  color-scheme: only dark
+              }
+
+              :where([data-theme=light]) {
+                  color-scheme: only light
+              }
+
+              @scope ([data-theme="dark"]) {
+                  :scope {
+                      color-scheme: only dark
+                  }
+              }
+
+              @scope ([data-theme="light"]) {
+                  :scope {
+                      color-scheme: only light
+                  }
+              }
+          }
+
+          body>* {
+              color: #000;
+              grid-column: 2;
+              position: relative;
+              z-index: 1
+          }
+
+          @supports (color: light-dark(red,tan)) {
+              body {
+                  background:light-dark(#f9f9f9,#070705)
+              }
+
+              body,body>* {
+                  color: light-dark(#000,#fff)
+              }
+          }
+      }
+    `;
+
+    expect(clearWhiteSpaceAndCallATP(css)).toBe(
+      '@layer global{:root{--header-open:0;color-scheme:light;interpolate-size:allow-keywords}body>*{color:#000;grid-column:2;position:relative;z-index:1}@supports(color:light-dark(red,tan)){:root{color-scheme:lightdark}:where([data-theme=dark]){color-scheme:onlydark}:where([data-theme=light]){color-scheme:onlylight}@scope([data-theme=\"dark\"]){:scope{color-scheme:onlydark}}@scope([data-theme=\"light\"]){:scope{color-scheme:onlylight}}body{background:light-dark(#f9f9f9,#070705)}body,body>*{color:light-dark(#000,#fff)}}}'
+    );
+  });
+
   it('Can merge deeply nested duplicate @rules', async () => {
     const css = `
       @media (max-width: 600px) {
